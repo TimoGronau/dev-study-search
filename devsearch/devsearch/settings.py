@@ -26,7 +26,7 @@ SECRET_KEY = "django-insecure-+wmi$6yi329ggp%52y5!bqdi0c960i9pvk14ed2bvai2s5r+-^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", ] #<name of website>.com when hosted somewhere
 
 
 # Application definition
@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -121,7 +122,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
+MEDIA_URL = "/images/"
+
+STATICFILES_DIRS = [
+    BASE_DIR /"static"
+]
+
+MEDIA_ROOT = BASE_DIR / "static/images"
+STATIC_ROOT = BASE_DIR / "staticfiles" #Where statics will be in prod
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

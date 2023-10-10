@@ -10,6 +10,7 @@ from inherit_me.models import CreatedModifiedDateTime
 class Project(CreatedModifiedDateTime):
     id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
     title = models.CharField(max_length=200)
+    featured_image = models.ImageField(null=True, blank=True, default="default.jpg")
     description = models.TextField(null=True, blank=True) #blank for django, null for database
     demo_link = models.CharField(max_length=2000,null=True, blank=True)
     source_link = models.CharField(max_length=2000, null=True, blank=True)

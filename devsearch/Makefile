@@ -1,18 +1,20 @@
-dev-start:
+start:
 	python manage.py runserver
-dev-install:
+install:
 	pip install -r requirements/dev.txt
-dev-migrate:
+migrate:
 	python manage.py migrate 
-dev-makemigrations:
+makemigrations:
 	python manage.py makemigrations 
-dev-showmigrations:
+showmigrations:
 	python manage.py showmigrations 
-dev-sqlmigrate:
+sqlmigrate:
 	python manage.py sqlmigrate $(App) $(Migration) 
-dev-shell:
+shell:
 	python manage.py shell 
-dev-rollback:
+rollback:
 	python manage.py migrate $(a) $(m) 
-dev-test:
+test:
 	python manage.py test 
+collectstatic:
+	python manage.py collectstatic
