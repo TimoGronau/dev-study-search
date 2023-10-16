@@ -9,15 +9,16 @@
       </div>
 
       <div class="hero-section__search">
-        <form class="form" action="#" method="get">
+        <form class="form" action={% url "profiles" %} method="get">
           <div class="form__field">
             <label for="formInput#search">Search Developers </label>
             <input
               class="input input--text"
               id="formInput#search"
               type="text"
-              name="text"
-              placeholder="Search by developer name"
+              name="search_query"
+              value="{{search_query}}"
+              placeholder="Search by developer name, intro or skills"
             />
           </div>
 
@@ -47,7 +48,7 @@
               </div>
               <p class="dev__info">{{profile.bio|slice:"150"}}</p>
               <div class="dev__skills">
-                {% for skill in profile.skill_set.all|slice:"5" %}
+                {% for skill in profile.skills.all|slice:"5" %}
                 <span class="tag tag--pill tag--main">
                   <small>{{skill}}</small>
                 </span>
@@ -60,5 +61,6 @@
       </div>
     </div>
   </section>
+  {% include "pagination.html"  with queryset=profiles page_range=elided_page_range%}
 </main>
 {% endblock content %}

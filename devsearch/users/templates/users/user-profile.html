@@ -9,7 +9,7 @@
             <div class="column column--1of3">
                 <div class="card text-center">
                     <div class="card__body dev">
-                        <img class="avatar avatar--xl" src="{{ profile.imageURL }}" />
+                        <img class="avatar avatar--xl" src="{{ profile.profile_image.url }}" />
                         <h2 class="dev__name">{{profile.name}}</h2>
                         <p class="dev__title">{{profile.short_intro}}</p>
                         <p class="dev__location">Based in {{profile.location}}</p>
@@ -17,37 +17,39 @@
 
                             {% if profile.social_github %}
                             <li>
-                                <a title="Github" href="{{profile.social_github}}" target="_blank"><i
-                                        class="im im-github"></i></a>
+                                <a title="Github" href="{{profile.social_github}}" target="_blank"><i class="fa-brands fa-github fa-2x"></i>
                             </li>
                             {% endif %}
 
 
                             {% if profile.social_twitter %}
                             <li>
-                                <a title="Twitter" href="{{profile.social_twitter}}" target="_blank"><i
-                                        class="im im-twitter"></i></a>
+                                <a title="Twitter" href="{{profile.social_twitter}}" target="_blank"><i class="fa-brands fa-twitter fa-2x"></i>
                             </li>
                             {% endif %}
 
                             {% if profile.social_linkedin %}
                             <li>
-                                <a title="LinkedIn" href="{{profile.social_linkedin}}" target="_blank"><i
-                                        class="im im-linkedin"></i></a>
+                                <a title="LinkedIn" href="{{profile.social_linkedin}}" target="_blank"><i class="fa-brands fa-linkedin fa-2x"></i>
+                            </li>
+                            {% endif %}
+
+                            {% if profile.social_stackoverflow %}
+                            <li>
+                                <a title="Stackoverflow" href="{{profile.social_stackoverflow}}" target="_blank"><i class="fa-brands fa-stack-overflow fa-2x"></i>
                             </li>
                             {% endif %}
 
                             {% if profile.social_website %}
                             <li>
-                                <a title="Personal Website" href="{{profile.social_website}}" target="_blank"><i
-                                        class="im im-globe"></i></a>
+                                <a title="Personal Website" href="{{profile.social_website}}" target="_blank"><i class="fa-solid fa-globe fa-2x"></i>
                             </li>
                             {% endif %}
 
                         </ul>
-                        {% if request.user.profile.id != profile.id %}
+                        {% comment %} {% if request.user.profile.id != profile.id %}
                         <a href="{% url 'create-message' profile.id %}" class="btn btn--sub btn--lg">Send Message </a>
-                        {% endif %}
+                        {% endif %} {% endcomment %}
                     </div>
                 </div>
             </div>

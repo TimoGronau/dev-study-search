@@ -19,6 +19,12 @@ img {
   margin-right: 0.5rem;
 }
 
+.settings__btn .fa-solid {
+  margin-right:5px; 
+}
+
+
+
 .content-box {
   width: 95%;
   max-width: 85rem;
