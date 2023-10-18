@@ -1,11 +1,14 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage
+from django.contrib import messages
 
 
 from .models import Project
-from .forms import ProjectForm
+from .forms import ProjectForm, ReviewForm
 from .utils import search_projects
+
+
 
 def projects(request):
     projects, search_query = search_projects(request)
@@ -22,15 +25,35 @@ def projects(request):
             "paginator":paginator, 
             'elided_page_range':elided_page_range
             }
+    
     return render(request, "projects/projects.html", context)
+
 
 
 def project(request, pk):
     project_obj = Project.objects.get(id=pk)
+    form = ReviewForm()
+
+    if request.method == "POST":
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.project = project_obj
+            review.owner = request.user.profile
+            review.save()
+
+            project_obj.get_vote_count
+
+            messages.success(request, "Review submitted!")
+            return redirect("project", pk=project_obj.id)
+
     context = {
-        "project": project_obj
+        "project": project_obj,
+        "form": form,
     }
+
     return render(request, "projects/single-project.html", context)
+
 
 
 @login_required(login_url='login')
@@ -50,6 +73,7 @@ def create_project(request):
     return render(request, "projects/project_form.html", context)
 
 
+
 @login_required(login_url='login')
 def update_project(request, pk):
     profile = request.user.profile
@@ -64,6 +88,7 @@ def update_project(request, pk):
 
     context = {'form': form}
     return render(request, "projects/project_form.html", context)
+
 
 
 @login_required(login_url='login')

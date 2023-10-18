@@ -1,4 +1,5 @@
 {%load static%} 
+{% load inbox_count %}
   <!-- Header Section -->
   <header class="header">
     <div class="container container--narrow">
@@ -14,9 +15,17 @@
         <ul class="header__menu">
           <li class="header__menuItem"><a href="{% url "profiles" %}">Developers</a></li>
           <li class="header__menuItem"><a href="{% url "projects" %}">Projects</a></li>
-          <li class="header__menuItem"><a href="">Inbox</a></li>
-          <li class="header__menuItem"><a href="{% url 'account' %}">Account</a></li>
           {% if request.user.is_authenticated %}
+          <li class="header__menuItem"><a href="{% url 'account' %}">Account</a></li>
+          {% if request.user|unread_messages_count%}
+          <li class="header__menuItem">
+            <a href="{% url 'inbox' %}">Inbox ({{ request.user|unread_messages_count }})</a>
+          </li>
+          {% else %}
+          <li class="header__menuItem">
+            <a href="{% url 'inbox' %}">Inbox</a>
+          </li>
+          {% endif %}
           <li class="header__menuItem"><a href="{% url 'logout' %}" class="btn btn--sub">Logout</a></li>
           {% else %}
           <li class="header__menuItem"><a href="{% url 'login' %}" class="btn btn--sub">Login/Sign Up</a></li>
