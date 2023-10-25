@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-
+from inherit_me.models import CreatedModifiedDateTime
 import uuid
 
 
@@ -33,4 +33,7 @@ class Skill(models.Model):
 
     def __str__(self):
         return str(self.name)
+    
+
+
 

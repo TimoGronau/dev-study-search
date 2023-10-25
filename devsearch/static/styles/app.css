@@ -773,16 +773,16 @@ img {
   gap: 1rem;
 }
 
-.message__author,
-.message__date {
+.chat__partner,
+.last_message__created_at {
   flex-basis: 25%;
 }
 
-.message__subject {
+.message__content {
   flex-basis: 50%;
 }
 
-.message__date {
+.last_message__created_at {
   text-align: right;
 }
 
@@ -867,3 +867,131 @@ img {
 
   z-index: 99999;
 }
+
+
+
+
+
+
+/*CHATSHIZZLEMANIZZLE*/
+
+.content-box {
+  width: 95%;
+  max-width: 85rem;
+  margin: 0 auto;
+}
+
+/* Styles for the chat-message-container (parent) */
+.chat-message-container {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 230px);
+  padding: 1rem;
+  background: var(--color-white);
+  border: 2px solid var(--color-light);
+
+  border-radius: 0.7rem;
+  margin: 0.5rem;
+  position: relative;
+  z-index: 10;
+}
+
+/* Styles for the chat-header (child of chat-message-container) */
+.chat-header {
+  position: fixed;
+  display: flex;
+  z-index: 60;
+}
+
+.chat-input {
+  /*position: fixed; */
+  display: flex;
+  z-index: 100;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.chat-form {
+  width: 95%;
+  max-width: 85rem;
+  margin: 0 auto;
+  display: flex;
+  background: var(--color-white);
+  border: 2px solid var(--color-light);
+
+  border-radius: 0.7rem;
+}
+
+
+/* Styles for the backButton (child of chat-header) */
+.chat-header .backButton {
+  background: var(--color-main-light);
+  color: var(--color-main);
+  width: 4rem;
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+/* Styles for the h1 element (child of chat-header) */
+.chat-message-container .chat-header h1 {
+  /* Your h1 styles here */
+}
+
+
+/* Styles for chatMessage elements (children of chat-message-container) */
+.chat-message-container .chatMessage {
+  display: block;
+  background-color: var(--color-sub);
+  border-radius: 0.5rem;
+  padding: 0.5rem 1.5rem;
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin: 8px;
+  text-align: left;
+}
+
+/* Styles for chatMessage--right (child of chatMessage) */
+.chat-message-container .chatMessage--right {
+  background: turquoise;
+  color: white;
+  align-self: flex-end;
+}
+
+/* Styles for chatMessage--left (child of chatMessage) */
+.chat-message-container .chatMessage--left {
+  background: gray;
+  color: white;
+  align-self: flex-start;
+}
+
+/* Styles for the chat-input (child of chat-message-container) */
+.chat-message-container .chat-input {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
+
+/* Styles for id_message_send_input (child of chat-input) */
+.chat-message-container .chat-input #id_message_send_input {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid var(--color-light);
+  border-radius: 0.5rem;
+}
+
+/* Styles for id_message_send_button (child of chat-input) */
+.chat-message-container .chat-input #id_message_send_button {
+  background: var(--color-sub);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+/* Add more specific styles as needed for nested elements. */

@@ -7,9 +7,8 @@
       <div class="hero-section__box">
         <h2>Search for <span>Projects</span></h2>
       </div>
-
       <div class="hero-section__search">
-        <form class="form" action={% url "projects" %} method="get">
+        <form id="search_form" class="form" action={% url "projects" %} method="get">
           <div class="form__field">
             <label for="formInput#search">Search By Projects </label>
             <input
@@ -21,7 +20,6 @@
               value="{{search_query}}"
               />
           </div>
-
           <input class="btn btn--sub btn--lg" type="submit" value="Search" />
         </form>
       </div>
@@ -46,7 +44,7 @@
                     <a class="project__author" href="{% url 'user-profile' project.owner.id%}">By {{project.owner.name}}</a>
                 </p>
                 <p class="project--rating">
-                  <span style="font-weight: bold">{{project.vote_ratio}}</span> Positive Feedback
+                  <span style="font-weight: bold">{{project.vote_ratio}}%</span> Positive Feedback,
                   ({{project.vote_total}}) Vote{{project.vote_total|pluralize:"s"}}
                 </p>
                 <div class="project__tags">

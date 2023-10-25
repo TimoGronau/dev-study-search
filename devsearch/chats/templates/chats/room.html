@@ -1,0 +1,121 @@
+{% extends "main.html" %}
+
+{% block content %}
+<main class="messagePage my-xl">
+	<div class="content-box">
+		<div class="chat-message-container">
+			<div class="chat-header">
+				<a class="backButton" href="{% url 'inbox' %}"><i class="fa-solid fa-arrow-left"></i></a>
+				<h1>{{ other_user.username }}</h1>
+			</div>
+            {% for chat_message in chat_messages %}
+            <div class="chatMessage{% if chat_message.sender == profile %} chatMessage--right{% else %} chatMessage--left{% endif %}" id="chat-messages">
+                <small>{{ chat_message.content|safe }}</small>
+            </div>
+            {% endfor %}
+            
+        </div>
+        <form method="post" action="" class="chat-form">
+            {% csrf_token %}
+            <div class="chat-input">
+                <input type="text" name="content" class="flex-1 mr-3" placeholder="Your message..." id="chat-message-input">
+                <button id="chat-message-submit">Send</button>
+            </div>
+        </form>
+    </div>
+</main>
+{% endblock %}
+
+{%block script%}
+{{ room.id|json_script:"json-room-id" }}
+{{ profile.id|json_script:"json-sender-id" }}
+{{ other_user.id|json_script:"json-receiver-id" }}
+
+<script>
+    const roomId = JSON.parse(document.getElementById('json-room-id').textContent);
+    const senderId = JSON.parse(document.getElementById('json-sender-id').textContent);
+    const receiverId = JSON.parse(document.getElementById('json-receiver-id').textContent);
+    const chatSocket = new WebSocket(
+        'ws://'
+        + window.location.host
+        + '/ws/'
+        + roomId
+        + '/'
+    );
+
+    chatSocket.onopen = function(e) {
+        console.log('yas bitch')
+    }
+
+
+    chatSocket.onclose = function(e) {
+        console.log('onclose')
+    }
+
+
+
+    chatSocket.onerror = function(e) {
+        console.error('WebSocket error:', e);
+    };
+    
+    chatSocket.onmessage = function(e) {
+        try {
+            const data = JSON.parse(e.data);
+            if (data.message_content) {
+                document.querySelector('#chat-messages').innerHTML += ('<br>' + data.message_content);
+            } else {
+                alert('The message was empty!')
+            }
+    
+            scrollToBottom();
+        } catch (error) {
+            console.error('Error parsing WebSocket data:', error);
+        }
+    };
+
+
+    document.querySelector('#chat-message-input').focus();
+    document.querySelector('#chat-message-input').onkeyup = function(e) {
+        if (e.keyCode === 13) {
+            e.preventDefault();
+            document.querySelector('#chat-message-submit').click();
+        }
+    };
+
+    document.querySelector('#chat-message-submit').onclick = function(e) {
+        e.preventDefault()
+
+        const messageInputDom = document.querySelector('#chat-message-input');
+        const message_content = messageInputDom.value;
+
+        console.log({
+            'message_content': message_content,
+            'senderId': senderId,
+            'receiverId': receiverId,
+            'roomId': roomId
+        })
+
+        chatSocket.send(JSON.stringify({
+            'message_content': message_content,
+            'senderId': senderId,
+            'receiverId': receiverId,
+            'roomId': roomId
+        }));
+
+        messageInputDom.value = '';
+
+        return false
+    };
+
+    /**
+    * A function for finding the messages element, and scroll to the bottom of it.
+    */
+    function scrollToBottom() {
+        let objDiv = document.getElementById("chat-messages");
+        objDiv.scrollTop = objDiv.scrollHeight;
+    }
+
+    // Add this below the function to trigger the scroll on load.
+    scrollToBottom();
+</script>
+{%endblock%}

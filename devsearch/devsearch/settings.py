@@ -37,10 +37,13 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
+    "daphne",
     "django.contrib.staticfiles",
     "projects.apps.ProjectsConfig",
     "users.apps.UsersConfig",
     "inherit_me.apps.InheritMeConfig",
+    "channels",
+    "chats.apps.ChatsConfig"
 ]
 
 MIDDLEWARE = [
@@ -75,6 +78,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "devsearch.wsgi.application"
+
+ASGI_APPLICATION = 'devsearch.asgi.application'
 
 
 # Database
@@ -137,3 +142,12 @@ STATIC_ROOT = BASE_DIR / "staticfiles" #Where statics will be in prod
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
