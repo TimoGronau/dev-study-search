@@ -1,5 +1,6 @@
 {% extends "main.html" %}
-{% comment %} {% block content %}
+
+{% block content %}
 <main class="messagePage my-xl">
 	<div class="content-box">
 		<div class="chat-message-container">
@@ -7,43 +8,22 @@
 				<a class="backButton" href="{% url 'inbox' %}"><i class="fa-solid fa-arrow-left"></i></a>
 				<h1>{{ other_user.username }}</h1>
 			</div>
-				{% for chat_message in chat_messages %}
-					<div class="chatMessage{% if chat_message.sender == profile %} chatMessage--right{% else %} chatMessage--left{% endif %}">
-						<small>{{ chat_message.content|linebreaksbr }}</small>
-					</div>
-				{% endfor %}
-				<div class="chat-input">
-					<input type="text" id="id_message_send_input" placeholder="Type a message...">
-					<button id="id_message_send_button">Send</button>
-		</div>
-		</div>
-	</div>
-</main>
-{% endblock content %} {% endcomment %}
-
-
-{% block content %}
-<div class="p-10 lg:p-20 text-center">
-    <h1 class="text-3xl lg:text-6xl text-white">{{ room.name }}</h1>
-</div>
-
-<div class="lg:w-2/4 mx-4 lg:mx-auto p-4 bg-white rounded-xl">
-    <div class="chat-messages space-y-3" id="chat-messages">
-        {% for m in chat_messages %}<b>{{ m.sender.username }}</b>: {{ m.content }}<br>{% endfor %}
+            {% for chat_message in chat_messages %}
+            <div class="chatMessage{% if chat_message.sender == profile %} chatMessage--right{% else %} chatMessage--left{% endif %}" id="chat-messages">
+                <small>{{ chat_message.content|safe }}</small>
+            </div>
+            {% endfor %}
+            
+        </div>
+        <form method="post" action="" class="chat-form">
+            {% csrf_token %}
+            <div class="chat-input">
+                <input type="text" name="content" class="flex-1 mr-3" placeholder="Your message..." id="chat-message-input">
+                <button id="chat-message-submit">Send</button>
+            </div>
+        </form>
     </div>
-</div>
-
-<div class="lg:w-2/4 mt-6 mx-4 lg:mx-auto p-4 bg-white rounded-xl">
-    <form method="post" action="" class="flex">
-        {% csrf_token %}
-        <input type="text" name="content" class="flex-1 mr-3" placeholder="Your message..." id="chat-message-input">
-
-        <button 
-            class="px-5 py-3 rounded-xl text-white bg-teal-600 hover:bg-teal-700"
-            id="chat-message-submit"
-        >Submit</button>
-    </form>
-</div>
+</main>
 {% endblock %}
 
 {%block script%}
@@ -82,7 +62,7 @@
         try {
             const data = JSON.parse(e.data);
             if (data.message_content) {
-                document.querySelector('#chat-messages').innerHTML += ('<b>' + data.senderId + '</b>: ' + data.message_content + '<br>');
+                document.querySelector('#chat-messages').innerHTML += ('<br>' + data.message_content);
             } else {
                 alert('The message was empty!')
             }

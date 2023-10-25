@@ -59,11 +59,12 @@ class ChatConsumer(AsyncWebsocketConsumer):
         sender = Profile.objects.get(id=senderId)
         receiver = Profile.objects.get(id=receiverId)
         room = Room.objects.get(id=roomId)
-
-        Message.objects.create(
-            sender=sender, 
-            recipient=receiver, 
-            room=room, 
-            content=message_content, 
-            is_read=False
-            )
+        
+        if message_content != "":
+            Message.objects.create(
+                sender=sender, 
+                recipient=receiver, 
+                room=room, 
+                content=message_content, 
+                is_read=False
+                )

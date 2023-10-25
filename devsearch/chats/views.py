@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Subquery, OuterRef, Max
 from django.db import models
 
+from .utils import insert_line_breaks
 from .models import Message, Room
 from users.models import Profile
 
@@ -41,6 +42,9 @@ def private_chat_view(request, pk):
     room = Room.objects.get(id=pk)
     other_user_profile = room.get_partner(profile)
     chat_messages = room.messages.all().reverse()
+    
+    for chat_message in chat_messages:
+        chat_message.content = insert_line_breaks(chat_message.content)
 
     return render(request, 'chats/room.html', {
         'chat_messages': chat_messages,

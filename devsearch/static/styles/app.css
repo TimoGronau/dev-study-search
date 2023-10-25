@@ -875,33 +875,57 @@ img {
 
 /*CHATSHIZZLEMANIZZLE*/
 
-
+.content-box {
+  width: 95%;
+  max-width: 85rem;
+  margin: 0 auto;
+}
 
 /* Styles for the chat-message-container (parent) */
 .chat-message-container {
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center; /* Center both vertically and horizontally */
+  max-height: calc(100vh - 230px);
   padding: 1rem;
   background: var(--color-white);
   border: 2px solid var(--color-light);
+
   border-radius: 0.7rem;
   margin: 0.5rem;
+  position: relative;
+  z-index: 10;
 }
 
 /* Styles for the chat-header (child of chat-message-container) */
-.chat-message-container .chat-header {
-  background: var(--color-light-blue); /* Blueish background color */
-  padding: 1rem;
-  flex: 1;
+.chat-header {
+  position: fixed;
   display: flex;
-
+  z-index: 60;
 }
 
+.chat-input {
+  /*position: fixed; */
+  display: flex;
+  z-index: 100;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.chat-form {
+  width: 95%;
+  max-width: 85rem;
+  margin: 0 auto;
+  display: flex;
+  background: var(--color-white);
+  border: 2px solid var(--color-light);
+
+  border-radius: 0.7rem;
+}
+
+
 /* Styles for the backButton (child of chat-header) */
-.chat-message-container .chat-header .backButton {
-  align-self: flex-start;
+.chat-header .backButton {
   background: var(--color-main-light);
   color: var(--color-main);
   width: 4rem;
@@ -920,7 +944,7 @@ img {
 
 /* Styles for chatMessage elements (children of chat-message-container) */
 .chat-message-container .chatMessage {
-  display: inline-block;
+  display: block;
   background-color: var(--color-sub);
   border-radius: 0.5rem;
   padding: 0.5rem 1.5rem;
