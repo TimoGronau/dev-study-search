@@ -878,49 +878,77 @@ img {
 .content-box {
   width: 95%;
   max-width: 85rem;
-  margin: 0 auto;
+  background-color: var(--color-white);
+  height: calc(100vh - 230px);
+  display: flex;
+  flex-direction: column;
+  border: 2px solid var(--color-light);
+  border-radius: 0.7rem;
 }
 
 /* Styles for the chat-message-container (parent) */
 .chat-message-container {
-  overflow-y: auto;
+  overflow-y: scroll;
   display: flex;
   flex-direction: column;
-  max-height: calc(100vh - 230px);
-  padding: 1rem;
-  background: var(--color-white);
-  border: 2px solid var(--color-light);
+  flex-grow: 1;
+}
 
-  border-radius: 0.7rem;
-  margin: 0.5rem;
-  position: relative;
-  z-index: 10;
+.chat-message-container::-webkit-scrollbar { /* I you need to see scrollbar just remove this */
+  display: none;
 }
 
 /* Styles for the chat-header (child of chat-message-container) */
 .chat-header {
-  position: fixed;
   display: flex;
-  z-index: 60;
+  align-items: center;
+  padding: 16px 8px;
+  position: relative;
+}
+
+.username-top {
+  width: fit-content;
+  position: absolute;
+  left: 0; 
+  right: 0; 
+  margin-left: auto; 
+  margin-right: auto;
+}
+
+.chat-bottom-section {
+  border-top: 1px solid #fffefd;
+  padding: 8px;
 }
 
 .chat-input {
-  /*position: fixed; */
   display: flex;
-  z-index: 100;
-  justify-content: space-between;
   width: 100%;
 }
 
-.chat-form {
-  width: 95%;
-  max-width: 85rem;
-  margin: 0 auto;
-  display: flex;
-  background: var(--color-white);
-  border: 2px solid var(--color-light);
+.chat-input input:focus{
+  outline: none;
+  border: none;
+}
 
+.chat-input input {
+  width: 100%;
+  border: none;
+  background-color: var(--color-light);
+  padding: 16px 0 16px 8px;
   border-radius: 0.7rem;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+#chat-message-submit {
+  padding: 0 16px;
+  border: 0;
+  display: flex;
+  align-items: center;
+  background-color: var(--color-light);
+  border-top-right-radius: 0.7rem;
+  border-bottom-right-radius: 0.7rem;
+  cursor: pointer;
 }
 
 
@@ -935,12 +963,6 @@ img {
   justify-content: center;
   border-radius: 50%;
 }
-
-/* Styles for the h1 element (child of chat-header) */
-.chat-message-container .chat-header h1 {
-  /* Your h1 styles here */
-}
-
 
 /* Styles for chatMessage elements (children of chat-message-container) */
 .chat-message-container .chatMessage {
