@@ -6,12 +6,10 @@
       <h1 class="username-top">{{ other_user.username }}</h1>
     </div>
 
-    <div class="chat-message-container">
+    <div class="chat-message-container" id="chat-message-container">
       {% for chat_message in chat_messages %}
       <div
-        class="chatMessage{% if chat_message.sender == profile %} chatMessage--right{% else %} chatMessage--left{% endif %}"
-        id="chat-messages"
-      >
+        class="chatMessage{% if chat_message.sender == profile %} chatMessage--right{% else %} chatMessage--left{% endif %}">
         <small>{{ chat_message.content|safe }}</small>
       </div>
       {% endfor %}
@@ -41,8 +39,10 @@
 {{ room.id|json_script:"json-room-id" }} 
 {{profile.id|json_script:"json-sender-id" }} 
 {{other_user.id|json_script:"json-receiver-id" }}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
+
   const roomId = JSON.parse(
     document.getElementById("json-room-id").textContent
   );
@@ -71,13 +71,13 @@
   chatSocket.onmessage = function (e) {
     try {
       const data = JSON.parse(e.data);
-      if (data.message_content) {
-        document.querySelector("#chat-messages").innerHTML +=
-          "<br>" + data.message_content;
-      } else {
-        alert("The message was empty!");
-      }
+      const chatContainer = $("#chat-message-container");
+      const isCurrentUser = data.senderId === senderId;
+      const senderClass = isCurrentUser ? "chatMessage--right" : "chatMessage--left";
+      const newMessage = `<div class="chatMessage ${senderClass}">${data.message_content}</div>`;
 
+      chatContainer.append(newMessage);
+      
       scrollToBottom();
     } catch (error) {
       console.error("Error parsing WebSocket data:", error);
@@ -119,15 +119,12 @@
     return false;
   };
 
-  /**
-   * A function for finding the messages element, and scroll to the bottom of it.
-   */
-  function scrollToBottom() {
-    let objDiv = document.getElementById("chat-messages");
-    objDiv.scrollTop = objDiv.scrollHeight;
-  }
 
-  // Add this below the function to trigger the scroll on load.
+  function scrollToBottom() {
+    const chatContainer = document.getElementById("chat-message-container");
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
   scrollToBottom();
+
 </script>
 {%endblock%}

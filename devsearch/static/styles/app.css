@@ -730,11 +730,11 @@ img {
 
 .inbox__title,
 .inbox__title span {
-  font-size: 2.4rem;
-  font-weight: 700;
+  font-size: 3 rem;
+  font-weight: 400;
   color: var(--color-sub);
   text-transform: uppercase;
-  text-align: left;
+  text-align: center;
   margin-bottom: 3rem;
 }
 
@@ -974,7 +974,10 @@ img {
   font-weight: 500;
   margin: 8px;
   text-align: left;
+  word-wrap: break-word; 
+  max-width: 40%; 
 }
+
 
 /* Styles for chatMessage--right (child of chatMessage) */
 .chat-message-container .chatMessage--right {

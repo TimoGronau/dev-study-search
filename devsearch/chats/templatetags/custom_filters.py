@@ -4,8 +4,8 @@ from chats.models import Message
 register = template.Library()
 
 @register.filter
-def last_message(chat):
-    last_message = Message.objects.filter(chat=chat).order_by('-created_at').first()
+def last_message(room):
+    last_message = Message.objects.filter(room=room).order_by('-created_at').first()
     return last_message
 
 @register.filter
